@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app/post_button.dart';
-import 'package:flare_flutter/flare_actor.dart';
+import 'package:weather_app/fashion_view.dart';
 
 void main() => runApp(MyApp());
 
@@ -58,52 +58,38 @@ class _MyHomePageState extends State<MyHomePage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
-    return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [Color(0xFF333399), Color(0xFF00E0FF)],
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        centerTitle: true,
+        title: Text(
+          "Today's Pick",
+          style: TextStyle(
+            fontFamily: "Aerolite",
+            fontSize: 35,
+          ),
         ),
       ),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          centerTitle: true,
-          title: Text(
-            'Recommendation',
-            style: TextStyle(color: Colors.white),
-          ),
-        ),
-        body: SafeArea(
-          top: true,
-          bottom: false,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              Flexible(
-                flex: 3,
-                child: FlareActor(
-                  "assets/Maurice.flr",
-                  alignment: Alignment.center,
-                  fit: BoxFit.contain,
-                  animation: "idle",
-                ),
-              ),
-              Spacer(
-                flex: 1,
-              ),
-              Spacer(
-                flex: 1,
-              ),
-              PostButton(),
-              Spacer(
-                flex: 1,
-              ),
-            ],
-          ),
+      body: SafeArea(
+        top: true,
+        bottom: false,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            Container(
+                height: MediaQuery.of(context).size.height/2,
+                child: FashionPageView()),
+            Text(
+              '1',
+              style: TextStyle(fontSize: 30),
+            ),
+            Center(child: PostButton()),
+            Spacer(
+              flex: 1,
+            ),
+          ],
         ),
       ),
     );
