@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:weather_app/post_button.dart';
+import 'package:weather_app/firebase.dart';
+// import 'package:weather_app/post_button.dart';  deprecated because of introduction of refresh indicator
 import 'package:weather_app/fashion_view.dart';
 
 void main() => runApp(MyApp());
@@ -21,9 +22,6 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-        textTheme: TextTheme(
-          body1: TextStyle(color: Colors.white),
-        ),
         primarySwatch: Colors.amber,
       ),
       home: MyHomePage(title: 'Flutter Demo Home Page'),
@@ -75,21 +73,48 @@ class _MyHomePageState extends State<MyHomePage> {
       body: SafeArea(
         top: true,
         bottom: false,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            Container(
-                height: MediaQuery.of(context).size.height/2,
-                child: FashionPageView()),
-            Text(
-              '1',
-              style: TextStyle(fontSize: 30),
+        child: RefreshIndicator(
+          color: Color(0xFF66CAE5),
+          backgroundColor: Colors.black,
+          onRefresh: () {
+            return getWeatherInfo();
+          },
+          child: SingleChildScrollView(
+            physics: AlwaysScrollableScrollPhysics(),
+            child: Container(
+              height: MediaQuery.of(context).size.height * 8 / 9,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Flexible(
+                    flex: 1,
+                    child: Container(
+                        height: MediaQuery.of(context).size.height / 2,
+                        child: FashionPageView()),
+                  ),
+                  Flexible(
+                    flex: 1,
+                    child: Column(
+                      children: <Widget>[
+                        Flexible(
+                          flex: 1,
+                          child: Container(
+                            color: Colors.red,
+                          ),
+                        ),
+                        Flexible(
+                          flex: 1,
+                          child: Container(
+                            color: Colors.teal,
+                          ),
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
-            Center(child: PostButton()),
-            Spacer(
-              flex: 1,
-            ),
-          ],
+          ),
         ),
       ),
     );

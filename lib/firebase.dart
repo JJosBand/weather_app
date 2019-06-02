@@ -7,7 +7,7 @@ import 'package:weather_app/location.dart';
 const CLIENT_ID = 'KscPtRtJwdVZjGLLfVEhk';
 const CLIENT_SECRET = 'BTtFxVyqTme7AgmIcLHnGARbaMrtcd9CIqR7qwtx';
 
-void getWeatherInfo() async {
+Future<void> getWeatherInfo() async {
   final coordinate = await getCurrentLocation();
   final lat = coordinate['lat'];
   final lng = coordinate['lng'];
@@ -56,6 +56,7 @@ void getWeatherInfo() async {
     'windChills': windChills
   };
 
+  // Update firebase server data
   final resPost = await http.put(urlFirebase, body: json.encode(weatherInfo));
   print(resPost.statusCode);
 }
