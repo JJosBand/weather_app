@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app/firebase.dart';
+import 'package:weather_app/widgets/element_bar_indicator.dart';
 // import 'package:weather_app/post_button.dart';  deprecated because of introduction of refresh indicator
 import 'package:weather_app/fashion_view.dart';
 
@@ -62,11 +63,17 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
-        title: Text(
-          "Today's Pick",
-          style: TextStyle(
-            fontFamily: "Aerolite",
-            fontSize: 35,
+        title: Container(
+          padding: EdgeInsets.all(5),
+          decoration: BoxDecoration(
+              border: Border.all(color: Colors.black),
+              borderRadius: BorderRadius.circular(15)),
+          child: Text(
+            "오늘의 옷차림",
+            style: TextStyle(
+              fontFamily: "Arita",
+              fontSize: 35,
+            ),
           ),
         ),
       ),
@@ -96,16 +103,17 @@ class _MyHomePageState extends State<MyHomePage> {
                     flex: 1,
                     child: Column(
                       children: <Widget>[
+                        new ElementBarIndicator(),
                         Flexible(
                           flex: 1,
                           child: Container(
-                            color: Colors.red,
+                            color: Colors.teal,
                           ),
                         ),
                         Flexible(
                           flex: 1,
                           child: Container(
-                            color: Colors.teal,
+                            color: Colors.yellow,
                           ),
                         )
                       ],
@@ -120,3 +128,4 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+

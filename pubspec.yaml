@@ -26,6 +26,7 @@ dependencies:
   http: ^0.12.0+2
   location: ^2.3.5
   flare_flutter: ^1.5.1
+  flutter_animation_progress_bar: ^1.0.0
 
 dev_dependencies:
   flutter_test:
@@ -67,6 +68,9 @@ flutter:
     - family: Aerolite
       fonts:
         - asset: assets/Aerolite.otf
+    - family: Arita
+      fonts:
+        - asset: assets/Arita-buriM.otf
   #   - family: Schyler
   #     fonts:
   #       - asset: fonts/Schyler-Regular.ttf
