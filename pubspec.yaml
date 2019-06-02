@@ -27,6 +27,7 @@ dependencies:
   location: ^2.3.5
   flare_flutter: ^1.5.1
   flutter_animation_progress_bar: ^1.0.0
+  provider: ^2.0.1+1
 
 dev_dependencies:
   flutter_test:

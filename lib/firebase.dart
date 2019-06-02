@@ -1,13 +1,18 @@
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 import 'package:weather_app/location.dart';
+import 'package:weather_app/models/weather_elements.dart';
 
 const CLIENT_ID = 'KscPtRtJwdVZjGLLfVEhk';
 const CLIENT_SECRET = 'BTtFxVyqTme7AgmIcLHnGARbaMrtcd9CIqR7qwtx';
 
-Future<void> getWeatherInfo() async {
+Future<void> getWeatherInfo(BuildContext context) async {
+  final weatherInfo = Provider.of<WeatherElements>(context);
+
   final coordinate = await getCurrentLocation();
   final lat = coordinate['lat'];
   final lng = coordinate['lng'];
@@ -47,17 +52,23 @@ Future<void> getWeatherInfo() async {
     'avg': getWindChill(temps['avg'], winds['avg']),
   };
 
-  final Map<String, dynamic> weatherInfo = {
+  final Map<String, dynamic> _weatherInfo = {
     'temps': temps,
     'winds': winds,
-    'rain': forecastWeatherInfoDetail['response'][0]['periods'][0]['precipMM'] ??= 0,
+    'rain': forecastWeatherInfoDetail['response'][0]['periods'][0]['precipMM'] ??= 0.0,
     'ffdust': airInfoDetail['response'][0]['periods'][0]['pollutants'][1]['valueUGM3'],
     'fdust': airInfoDetail['response'][0]['periods'][0]['pollutants'][2]['valueUGM3'],
     'windChills': windChills
   };
 
+  // Update local app data
+  weatherInfo.windChill = _weatherInfo['windChills']['current'];
+  weatherInfo.precipitation = _weatherInfo['rain'];
+  weatherInfo.fdust = _weatherInfo['fdust'];
+  weatherInfo.ffdust = _weatherInfo['ffdust'];
+
   // Update firebase server data
-  final resPost = await http.put(urlFirebase, body: json.encode(weatherInfo));
+  final resPost = await http.put(urlFirebase, body: json.encode(_weatherInfo));
   print(resPost.statusCode);
 }
 

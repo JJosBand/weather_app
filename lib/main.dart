@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:weather_app/firebase.dart';
 import 'package:weather_app/widgets/element_bar_indicator.dart';
 // import 'package:weather_app/post_button.dart';  deprecated because of introduction of refresh indicator
 import 'package:weather_app/fashion_view.dart';
+import 'package:weather_app/models/weather_elements.dart';
 
 void main() => runApp(MyApp());
 
@@ -57,75 +59,86 @@ class _MyHomePageState extends State<MyHomePage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        centerTitle: true,
-        title: Container(
-          padding: EdgeInsets.all(5),
-          decoration: BoxDecoration(
-              border: Border.all(color: Colors.black),
-              borderRadius: BorderRadius.circular(15)),
-          child: Text(
-            "오늘의 옷차림",
-            style: TextStyle(
-              fontFamily: "Arita",
-              fontSize: 35,
-            ),
-          ),
-        ),
-      ),
-      body: SafeArea(
-        top: true,
-        bottom: false,
-        child: RefreshIndicator(
-          color: Color(0xFF66CAE5),
-          backgroundColor: Colors.black,
-          onRefresh: () {
-            return getWeatherInfo();
-          },
-          child: SingleChildScrollView(
-            physics: AlwaysScrollableScrollPhysics(),
-            child: Container(
-              height: MediaQuery.of(context).size.height * 8 / 9,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Flexible(
-                    flex: 1,
-                    child: Container(
-                        height: MediaQuery.of(context).size.height / 2,
-                        child: FashionPageView()),
-                  ),
-                  Flexible(
-                    flex: 1,
-                    child: Column(
-                      children: <Widget>[
-                        new ElementBarIndicator(),
-                        Flexible(
-                          flex: 1,
-                          child: Container(
-                            color: Colors.teal,
-                          ),
-                        ),
-                        Flexible(
-                          flex: 1,
-                          child: Container(
-                            color: Colors.yellow,
-                          ),
-                        )
-                      ],
-                    ),
-                  )
-                ],
+    return ChangeNotifierProvider(
+      builder: (context) => WeatherElements(),
+          child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          centerTitle: true,
+          title: Container(
+            padding: EdgeInsets.all(5),
+            decoration: BoxDecoration(
+                border: Border.all(color: Colors.black),
+                borderRadius: BorderRadius.circular(15)),
+            child: Text(
+              "오늘의 옷차림",
+              style: TextStyle(
+                fontFamily: "Arita",
+                fontSize: 35,
               ),
             ),
           ),
+        ),
+        body: SafeArea(
+          top: true,
+          bottom: false,
+          child: MainPage(),
         ),
       ),
     );
   }
 }
 
+class MainPage extends StatelessWidget {
+  const MainPage({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return RefreshIndicator(
+      color: Color(0xFF66CAE5),
+      backgroundColor: Colors.black,
+      onRefresh: () {
+        return getWeatherInfo(context);
+      },
+      child: SingleChildScrollView(
+        physics: AlwaysScrollableScrollPhysics(),
+        child: Container(
+          height: MediaQuery.of(context).size.height * 5 / 6,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              Flexible(
+                flex: 1,
+                child: Container(
+                    height: MediaQuery.of(context).size.height / 2,
+                    child: FashionPageView()),
+              ),
+              Flexible(
+                flex: 1,
+                child: Column(
+                  children: <Widget>[
+                    WindChillIndicator(),
+                    PrecipitationIndicator(),
+                    Flexible(
+                      flex: 1,
+                      child: Row(
+                        children: <Widget>[
+                          FineDustIndicator(),
+                          UltraFineDustIndicator(),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

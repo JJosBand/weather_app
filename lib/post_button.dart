@@ -6,7 +6,7 @@ class PostButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return FloatingActionButton(
       onPressed: () async {
-        getWeatherInfo();
+        getWeatherInfo(context);
         print('button clicked');
       },
       tooltip: 'Http Post',
