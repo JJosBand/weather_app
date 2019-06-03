@@ -6,7 +6,6 @@ import 'package:provider/provider.dart';
 import 'package:weather_app/loading_page.dart';
 import 'package:weather_app/firebase.dart';
 import 'package:weather_app/widgets/element_bar_indicator.dart';
-// import 'package:weather_app/post_button.dart';  deprecated because of introduction of refresh indicator
 import 'package:weather_app/fashion_view.dart';
 import 'package:weather_app/models/weather_elements.dart';
 
