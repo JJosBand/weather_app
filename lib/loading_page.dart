@@ -22,11 +22,15 @@ class _LoadingPageState extends State<LoadingPage>
         backgroundColor: Colors.transparent,
         body: Center(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Icon(Icons.cloud_done,
                   size: MediaQuery.of(context).size.width / 3),
-              _isLoading ? CircularProgressIndicator() : Icon(Icons.done)
+              _isLoading
+                  ? CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation(Colors.red),
+                    )
+                  : Icon(Icons.done)
             ],
           ),
         ),
