@@ -8,13 +8,15 @@ class ElementBarIndicator extends StatelessWidget {
   final String elementUnit;
   final num elementValue;
   final int elementMaxValue;
+  final Color progressColor;
   final double size;
 
   const ElementBarIndicator(
     this.elementName,
     this.elementUnit,
     this.elementValue,
-    this.elementMaxValue, {
+    this.elementMaxValue,
+    this.progressColor, {
     this.size = 15,
     Key key,
   }) : super(key: key);
@@ -26,7 +28,7 @@ class ElementBarIndicator extends StatelessWidget {
       child: Container(
           decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -38,7 +40,9 @@ class ElementBarIndicator extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10)),
                   child: Text(
                     elementName,
-                    style: TextStyle(fontSize: 20, fontFamily: 'Arita'),
+                    style: TextStyle(
+                        fontSize: MediaQuery.of(context).size.height / 40,
+                        fontFamily: 'Arita'),
                   ),
                 ),
                 FAProgressBar(
@@ -46,6 +50,9 @@ class ElementBarIndicator extends StatelessWidget {
                   currentValue: elementValue,
                   maxValue: elementMaxValue,
                   size: size,
+                  progressColor: progressColor,
+                  backgroundColor: Colors.grey[350],
+                  // changeColorValue: 10,
                 ),
               ],
             ),
@@ -57,56 +64,131 @@ class ElementBarIndicator extends StatelessWidget {
 class WindChillIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Consumer<WeatherElements>(
-      builder: (context, elements, _) => ElementBarIndicator(
-            "체감온도",
-            '°C',
-            elements.windChill.round(),
-            40,
-            size: 30,
-          ),
-    );
+    return Consumer<WeatherElements>(builder: (context, elements, _) {
+      var value = elements.windChill.round();
+      Color progressColor;
+
+      if (value < 5) {
+        progressColor = Colors.blue;
+      } else if (value < 15) {
+        progressColor = Colors.lightBlue;
+      } else if (value < 25) {
+        progressColor = Colors.amber;
+      } else if (value < 33) {
+        progressColor = Colors.amber[800];
+      } else {
+        progressColor = Colors.red[700];
+      }
+      // 37.294
+      return ElementBarIndicator(
+        "체감온도",
+        '°C',
+        value,
+        40,
+        progressColor,
+        size: MediaQuery.of(context).size.height / 30,
+      );
+    });
   }
 }
 
 class PrecipitationIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Consumer<WeatherElements>(
-      builder: (context, elements, _) => ElementBarIndicator(
-            "강수량",
-            'mm',
-            elements.precipitation,
-            200,
-          ),
-    );
+    return Consumer<WeatherElements>(builder: (context, elements, _) {
+      var value = elements.precipitation.round();
+      Color progressColor;
+
+      if (value <= 5) {
+        progressColor = Colors.lightBlue[300];
+      } else if (value <= 20) {
+        progressColor = Colors.lightBlue;
+      } else {
+        progressColor = Colors.lightBlue[800];
+      }
+
+      return ElementBarIndicator(
+        "강수량",
+        'mm',
+        value,
+        200,
+        progressColor,
+        size: MediaQuery.of(context).size.height / 30,
+      );
+    });
   }
 }
 
 class FineDustIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Consumer<WeatherElements>(
-      builder: (context, elements, _) => ElementBarIndicator(
-            "미세먼지",
-            '㎍/m³',
-            elements.fdust,
-            200,
-          ),
-    );
+    return Consumer<WeatherElements>(builder: (context, elements, _) {
+      var value = elements.fdust.round();
+      Color progressColor;
+
+      if (value <= 15) {
+        progressColor = Colors.blue[900];
+      } else if (value <= 30) {
+        progressColor = Colors.blue[300];
+      } else if (value <= 40) {
+        progressColor = Colors.cyan[400];
+      } else if (value <= 50) {
+        progressColor = Colors.green;
+      } else if (value <= 75) {
+        progressColor = Colors.orange;
+      } else if (value <= 100) {
+        progressColor = Colors.red;
+      } else if (value <= 150) {
+        progressColor = Colors.red[900];
+      } else {
+        progressColor = Colors.black;
+      }
+
+      return ElementBarIndicator(
+        "미세먼지",
+        '㎍/m³',
+        value,
+        100,
+        progressColor,
+        size: MediaQuery.of(context).size.height / 30,
+      );
+    });
   }
 }
 
 class UltraFineDustIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Consumer<WeatherElements>(
-      builder: (context, elements, _) => ElementBarIndicator(
-            "초미세먼지",
-            '㎍/m³',
-            elements.ffdust,
-            200,
-          ),
-    );
+    return Consumer<WeatherElements>(builder: (context, elements, _) {
+      var value = elements.ffdust.round();
+      Color progressColor;
+      
+      if (value <= 8) {
+        progressColor = Colors.blue[900];
+      } else if (value <= 15) {
+        progressColor = Colors.blue[300];
+      } else if (value <= 20) {
+        progressColor = Colors.cyan[400];
+      } else if (value <= 25) {
+        progressColor = Colors.green;
+      } else if (value <= 37) {
+        progressColor = Colors.orange;
+      } else if (value <= 50) {
+        progressColor = Colors.red;
+      } else if (value <= 75) {
+        progressColor = Colors.red[900];
+      } else {
+        progressColor = Colors.black;
+      }
+
+      return ElementBarIndicator(
+        "초미세먼지",
+        '㎍/m³',
+        value,
+        100,
+        progressColor,
+        size: MediaQuery.of(context).size.height / 30,
+      );
+    });
   }
 }

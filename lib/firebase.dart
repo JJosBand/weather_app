@@ -55,7 +55,7 @@ Future<void> getWeatherInfo(BuildContext context) async {
   final Map<String, dynamic> _weatherInfo = {
     'temps': temps,
     'winds': winds,
-    'rain': forecastWeatherInfoDetail['response'][0]['periods'][0]['precipMM'] ??= 0.0,
+    'rain': forecastWeatherInfoDetail['response'][0]['periods'][0]['precipMM'] ??= 0,
     'ffdust': airInfoDetail['response'][0]['periods'][0]['pollutants'][1]['valueUGM3'],
     'fdust': airInfoDetail['response'][0]['periods'][0]['pollutants'][2]['valueUGM3'],
     'windChills': windChills
