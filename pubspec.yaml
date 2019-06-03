@@ -28,6 +28,7 @@ dependencies:
   flare_flutter: ^1.5.1
   flutter_animation_progress_bar: ^1.0.0
   provider: ^2.0.1+1
+  after_layout: ^1.0.7+1
 
 dev_dependencies:
   flutter_test:
@@ -51,6 +52,7 @@ flutter:
     - assets/Human_animation_1.flr
     - assets/Human_animation_2.flr
     - assets/Human_animation_3.flr
+    - assets/totoro_proto.jpg
   #  - images/a_dot_burr.jpeg
   #  - images/a_dot_ham.jpeg
 

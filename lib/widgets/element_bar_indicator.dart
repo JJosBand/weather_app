@@ -23,41 +23,38 @@ class ElementBarIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Flexible(
-      flex: 1,
-      child: Container(
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Container(
-                  padding: EdgeInsets.all(2),
-                  decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black),
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Text(
-                    elementName,
-                    style: TextStyle(
-                        fontSize: MediaQuery.of(context).size.height / 40,
-                        fontFamily: 'Arita'),
-                  ),
+    return Container(
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.all(2),
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black),
+                    borderRadius: BorderRadius.circular(10)),
+                child: Text(
+                  elementName,
+                  style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.height / 40,
+                      fontFamily: 'Arita'),
                 ),
-                FAProgressBar(
-                  displayText: elementUnit,
-                  currentValue: elementValue,
-                  maxValue: elementMaxValue,
-                  size: size,
-                  progressColor: progressColor,
-                  backgroundColor: Colors.grey[350],
-                  // changeColorValue: 10,
-                ),
-              ],
-            ),
-          )),
-    );
+              ),
+              FAProgressBar(
+                displayText: elementUnit,
+                currentValue: elementValue,
+                maxValue: elementMaxValue,
+                size: size,
+                progressColor: progressColor,
+                backgroundColor: Colors.grey[350],
+                // changeColorValue: 10,
+              ),
+            ],
+          ),
+        ));
   }
 }
 
