@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:weather_app/weather_data_utility.dart';
 import 'package:after_layout/after_layout.dart';
 import 'package:flare_flutter/flare_actor.dart';
-import 'package:html/parser.dart';
-import 'package:http/http.dart' as http;
 
 class LoadingPage extends StatefulWidget {
   @override

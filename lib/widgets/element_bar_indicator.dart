@@ -153,7 +153,7 @@ class FineDustIndicator extends StatelessWidget {
         "미세먼지",
         '㎍/m³',
         value,
-        100,
+        155,
         progressColor,
         size: MediaQuery.of(context).size.height / 30,
       );
@@ -190,7 +190,7 @@ class UltraFineDustIndicator extends StatelessWidget {
         "초미세먼지",
         '㎍/m³',
         value,
-        100,
+        80,
         progressColor,
         size: MediaQuery.of(context).size.height / 30,
       );

@@ -19,7 +19,7 @@ class WeatherApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       builder: (context) => WeatherElements(),
-          child: MaterialApp(
+      child: MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Weather & Fashion',
           routes: {
@@ -36,6 +36,52 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: Drawer(
+          child: ListView(
+        children: <Widget>[
+          DrawerHeader(
+            child: Text(
+              'Fake 데이터 보내기',
+              style: TextStyle(fontSize: 25),
+            ),
+            decoration: BoxDecoration(color: Colors.cyan),
+          ),
+          ListTile(
+            title: Text('겨울, 미세먼지'),
+            onTap: () async {
+              Map<String, num> temps = {
+                'current': 3,
+                'max': 6,
+                'min': -5,
+              };
+              await WeatherDataOpertation().putFakeWeatherInfo(context,
+                  fdust: 123,
+                  ffdust: 87,
+                  precipitation: 0,
+                  temps: temps,
+                  windChill: 2);
+              Future.delayed(Duration(milliseconds: 500)).then((_) => Navigator.pushReplacementNamed(context, '/home'));
+            },
+          ),
+          ListTile(
+            title: Text('여름, 비'),
+            onTap: () async {
+              Map<String, num> temps = {
+                'current': 20,
+                'max': 22,
+                'min': 18,
+              };
+              await WeatherDataOpertation().putFakeWeatherInfo(context,
+                  fdust: 26,
+                  ffdust: 15,
+                  precipitation: 7,
+                  temps: temps,
+                  windChill: 18);
+              Future.delayed(Duration(milliseconds: 500)).then((_) => Navigator.pushReplacementNamed(context, '/home'));
+            },
+          )
+        ],
+      )),
       backgroundColor: Colors.white,
       body: SafeArea(
         top: true,

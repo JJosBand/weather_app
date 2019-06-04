@@ -8,7 +8,6 @@ import 'package:provider/provider.dart';
 import 'package:weather_app/location.dart';
 import 'package:weather_app/models/weather_elements.dart';
 import 'package:html/parser.dart';
-import 'package:html/dom.dart';
 
 class WeatherDataOpertation {
   static const String _urlFirebase =
@@ -143,7 +142,6 @@ class WeatherDataOpertation {
     // spawns new isolate to prevent UI from halting.
     var document = await compute(parse, responseNaver.body);
 
-
     var mainInfo = document.getElementsByClassName('main_info')[0];
     var currentTempStr = mainInfo
         .getElementsByClassName('info_temperature')[0]
@@ -155,12 +153,17 @@ class WeatherDataOpertation {
         .text;
     var maxTempStr = mainInfo.getElementsByClassName('max')[0].text;
     var minTempStr = mainInfo.getElementsByClassName('min')[0].text;
-    var rainInfo = document.getElementsByClassName('info_list rainfall _tabContent')[0].getElementsByTagName('dl');
+    var rainInfo = document
+        .getElementsByClassName('info_list rainfall _tabContent')[0]
+        .getElementsByTagName('dl');
 
     num totalPrecipitation = 0;
 
     rainInfo.forEach((dl) {
-      var precipitation = num.tryParse(dl.getElementsByClassName('item_condition')[0].getElementsByTagName('span')[0].text);
+      var precipitation = num.tryParse(dl
+          .getElementsByClassName('item_condition')[0]
+          .getElementsByTagName('span')[0]
+          .text);
       if (precipitation != null) {
         totalPrecipitation += precipitation;
       }
@@ -201,25 +204,46 @@ class WeatherDataOpertation {
       'windChill': currentWindChill,
     };
     print('Naver로부터 성공적으로 데이터를 가져왔습니다.');
-    
-    // Update local data 
+
+    // Update local data
     weatherInfoProvider.windChill = currentWindChill;
     weatherInfoProvider.precipitation = totalPrecipitation;
     weatherInfoProvider.fdust = fdust;
     weatherInfoProvider.ffdust = ffdust;
 
-    // await _putWeatherInfo();
+    await _putWeatherInfo();
   }
 
   Future<String> _getAdminAreaInfo() async {
     coordinate = await getCurrentLocation();
 
-    String url = "https://dapi.kakao.com/v2/local/geo/coord2regioncode.json?x=${coordinate['lng']}&y=${coordinate['lat']}";
+    String url =
+        "https://dapi.kakao.com/v2/local/geo/coord2regioncode.json?x=${coordinate['lng']}&y=${coordinate['lat']}";
     Map<String, String> headers = {
       'Authorization': _kakaoAuth,
     };
     var response = await http.get(url, headers: headers);
-    var addressName = json.decode(response.body)['documents'][0]['address_name'];
+    var addressName =
+        json.decode(response.body)['documents'][0]['address_name'];
     return addressName;
+  }
+
+  Future<void> putFakeWeatherInfo(BuildContext context,
+      {num windChill, num precipitation, num fdust, num ffdust, Map<String, num> temps}) async {
+    var weatherInfoProvider = Provider.of<WeatherElements>(context);
+    weatherInfoProvider.windChill = windChill;
+    weatherInfoProvider.precipitation = precipitation;
+    weatherInfoProvider.fdust = fdust;
+    weatherInfoProvider.ffdust = ffdust;
+
+    _weatherInfo = {
+      'fdust': fdust,
+      'ffdust': ffdust,
+      'rain': precipitation,
+      'temps': temps,
+      'windChill': windChill,
+    };
+
+    await _putWeatherInfo();
   }
 }
