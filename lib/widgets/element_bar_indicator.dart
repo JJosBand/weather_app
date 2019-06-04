@@ -66,9 +66,11 @@ class WindChillIndicator extends StatelessWidget {
       Color progressColor;
 
       if (value < 5) {
-        progressColor = Colors.blue;
-      } else if (value < 15) {
+        progressColor = Colors.indigoAccent;
+      } else if (value < 17) {
         progressColor = Colors.lightBlue;
+      } else if (value < 20) {
+        progressColor = Colors.green[600];
       } else if (value < 25) {
         progressColor = Colors.amber;
       } else if (value < 30) {
@@ -165,7 +167,7 @@ class UltraFineDustIndicator extends StatelessWidget {
     return Consumer<WeatherElements>(builder: (context, elements, _) {
       var value = elements.ffdust.round();
       Color progressColor;
-      
+
       if (value <= 8) {
         progressColor = Colors.blue[900];
       } else if (value <= 15) {
