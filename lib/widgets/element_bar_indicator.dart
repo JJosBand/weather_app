@@ -71,8 +71,12 @@ class WindChillIndicator extends StatelessWidget {
         progressColor = Colors.lightBlue;
       } else if (value < 25) {
         progressColor = Colors.amber;
-      } else if (value < 33) {
+      } else if (value < 30) {
         progressColor = Colors.amber[800];
+      } else if (value < 33) {
+        progressColor = Colors.orange[900];
+      } else if (value < 37) {
+        progressColor = Colors.deepOrange;
       } else {
         progressColor = Colors.red[700];
       }
@@ -96,19 +100,21 @@ class PrecipitationIndicator extends StatelessWidget {
       var value = elements.precipitation.round();
       Color progressColor;
 
-      if (value <= 5) {
+      if (value <= 1) {
+        progressColor = Colors.lightBlue[100];
+      } else if (value <= 5) {
         progressColor = Colors.lightBlue[300];
       } else if (value <= 20) {
         progressColor = Colors.lightBlue;
       } else {
-        progressColor = Colors.lightBlue[800];
+        progressColor = Colors.lightBlue[900];
       }
 
       return ElementBarIndicator(
         "강수량",
         'mm',
         value,
-        200,
+        10,
         progressColor,
         size: MediaQuery.of(context).size.height / 30,
       );

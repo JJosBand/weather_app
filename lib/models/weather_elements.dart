@@ -1,13 +1,13 @@
 import 'package:flutter/foundation.dart';
 
 class WeatherElements with ChangeNotifier {
-  double _windChill= 0;
+  num _windChill= 0;
   num _precipitation = 0;
   num _fdust = 0;
   num _ffdust = 0;
 
-  double get windChill => _windChill;
-  set windChill(double newValue) {
+  num get windChill => _windChill;
+  set windChill(num newValue) {
     _windChill = newValue;
     notifyListeners();
   }

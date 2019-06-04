@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:weather_app/firebase.dart';
+import 'package:weather_app/weather_data_utility.dart';
 import 'package:after_layout/after_layout.dart';
+import 'package:flare_flutter/flare_actor.dart';
+import 'package:html/parser.dart';
+import 'package:http/http.dart' as http;
 
 class LoadingPage extends StatefulWidget {
   @override
@@ -15,7 +18,9 @@ class _LoadingPageState extends State<LoadingPage>
     return Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [Colors.cyan, Colors.amber],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Colors.cyanAccent, Colors.purple],
         ),
       ),
       child: Scaffold(
@@ -24,13 +29,22 @@ class _LoadingPageState extends State<LoadingPage>
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Icon(Icons.cloud_done,
-                  size: MediaQuery.of(context).size.width / 3),
+              Text(
+                'Daily Fit',
+                style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.width / 5,
+                    fontFamily: 'Aerolite'),
+              ),
+              Container(
+                  height: MediaQuery.of(context).size.height / 3,
+                  child: FlareActor('assets/logo.flr',
+                      fit: BoxFit.contain, animation: 'idle')),
+              SizedBox(height: MediaQuery.of(context).size.height/10),
               _isLoading
                   ? CircularProgressIndicator(
                       valueColor: AlwaysStoppedAnimation(Colors.red),
                     )
-                  : Icon(Icons.done)
+                  : Icon(Icons.done, size: 40,)
             ],
           ),
         ),
@@ -42,11 +56,14 @@ class _LoadingPageState extends State<LoadingPage>
     setState(() {
       _isLoading = true;
     });
-    FirebaseModel().getWeatherInfo(context).then((_) {
+    var operation = WeatherDataOpertation();
+    operation.getWeatherInfoFromNaver(context).then((_) {
       setState(() {
         _isLoading = false;
       });
-      Navigator.pushReplacementNamed(context, '/home');
+      Future.delayed(Duration(seconds: 1, milliseconds: 500)).then((_) {
+        Navigator.pushReplacementNamed(context, '/home');
+      });
     });
   }
 }

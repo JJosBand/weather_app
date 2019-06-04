@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:weather_app/loading_page.dart';
-import 'package:weather_app/firebase.dart';
+import 'package:weather_app/weather_data_utility.dart';
 import 'package:weather_app/widgets/element_bar_indicator.dart';
 import 'package:weather_app/fashion_view.dart';
 import 'package:weather_app/models/weather_elements.dart';
@@ -57,7 +57,7 @@ class MainScreen extends StatelessWidget {
       color: Color(0xFF66CAE5),
       backgroundColor: Colors.black,
       onRefresh: () {
-        return FirebaseModel().getWeatherInfo(context);
+        return WeatherDataOpertation().getWeatherInfoFromNaver(context);
       },
       child: SingleChildScrollView(
         physics: AlwaysScrollableScrollPhysics(),

@@ -14,7 +14,5 @@ Future<Map<String, double>> getCurrentLocation() async {
     print('Platform Exception Occur..! : ${e.message}');
     coordinate = null;
   }
-  print(coordinate['lat']);
-  print(coordinate['lng']);
   return coordinate;
 }
