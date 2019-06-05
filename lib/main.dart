@@ -6,6 +6,8 @@ import 'package:weather_app/weather_data_utility.dart';
 import 'package:weather_app/widgets/element_bar_indicator.dart';
 import 'package:weather_app/fashion_view.dart';
 import 'package:weather_app/models/weather_elements.dart';
+import 'package:weather_app/alarm.dart';
+import 'package:weather_app/mode.dart';
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(
@@ -36,6 +38,26 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.add), onPressed: () async {
+            var status = await Mode.changeMode();
+            if (status == 200) {
+                showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                        title: Text('성공'),
+                        content: Text('무드등의 모드를 변경했습니다!'),
+                        actions: <Widget>[
+                          FlatButton(
+                            child: Text('Ok'),
+                            onPressed: () => Navigator.of(context).pop(),
+                          )
+                        ],
+                      ),
+                );
+              }
+          }),
       drawer: Drawer(
           child: ListView(
         children: <Widget>[
@@ -60,7 +82,8 @@ class HomePage extends StatelessWidget {
                   precipitation: 0,
                   temps: temps,
                   windChill: 2);
-              Future.delayed(Duration(milliseconds: 500)).then((_) => Navigator.pushReplacementNamed(context, '/home'));
+              Future.delayed(Duration(milliseconds: 500)).then(
+                  (_) => Navigator.pushReplacementNamed(context, '/home'));
             },
           ),
           ListTile(
@@ -77,7 +100,29 @@ class HomePage extends StatelessWidget {
                   precipitation: 7,
                   temps: temps,
                   windChill: 18);
-              Future.delayed(Duration(milliseconds: 500)).then((_) => Navigator.pushReplacementNamed(context, '/home'));
+              Future.delayed(Duration(milliseconds: 500)).then(
+                  (_) => Navigator.pushReplacementNamed(context, '/home'));
+            },
+          ),
+          ListTile(
+            title: Text('알람 설정'),
+            onTap: () async {
+              var status = await Alarm.postAlarmDataFromNowOneMin();
+              if (status == 200) {
+                showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                        title: Text('성공'),
+                        content: Text('알람을 설정했습니다1'),
+                        actions: <Widget>[
+                          FlatButton(
+                            child: Text('Ok'),
+                            onPressed: () => Navigator.of(context).pushReplacementNamed('/home'),
+                          )
+                        ],
+                      ),
+                );
+              }
             },
           )
         ],
@@ -145,7 +190,7 @@ class MainScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-                    Spacer(flex: 2)
+                    Spacer(flex: 3)
                   ],
                 ),
               ),
