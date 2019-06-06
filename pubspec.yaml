@@ -1,5 +1,5 @@
-name: weather_app
-description: A new Flutter project.
+name: daily_fit
+description: An application to control mood ramp and suggest daily fashion
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -30,6 +30,7 @@ dependencies:
   provider: ^2.0.1+1
   after_layout: ^1.0.7+1
   html: ^0.14.0+2
+  datetime_picker_formfield: ^0.2.0
 
 dev_dependencies:
   flutter_test:
@@ -74,9 +75,9 @@ flutter:
     - family: Aerolite
       fonts:
         - asset: assets/Aerolite.otf
-    - family: Arita
+    - family: Nanumsquare
       fonts:
-        - asset: assets/Arita-buriM.otf
+        - asset: assets/나눔스퀘어 Regular.ttf
   #   - family: Schyler
   #     fonts:
   #       - asset: fonts/Schyler-Regular.ttf

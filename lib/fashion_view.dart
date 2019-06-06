@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flare_flutter/flare_actor.dart';
-import 'package:weather_app/models/weather_elements.dart';
+import 'package:daily_fit/models/weather_elements.dart';
 import 'package:provider/provider.dart';
 
 class FashionPageView extends StatefulWidget {
@@ -38,8 +38,8 @@ class _FashionAnimationState extends State<FashionPageView> {
           color = Colors.black;
         }
 
-        if (weatherElements.fdust >= 50 ||
-            weatherElements.ffdust >= 25 && weatherElements.windChill < 10) {
+        if ((weatherElements.fdust >= 50 || weatherElements.ffdust >= 25) &&
+            weatherElements.windChill < 10) {
           actor = FlareActor('assets/mask.flr',
               fit: BoxFit.contain, animation: 'idle');
         } else if (weatherElements.fdust < 50 &&

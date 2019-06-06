@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animation_progress_bar/flutter_animation_progress_bar.dart';
 import 'package:provider/provider.dart';
-import 'package:weather_app/models/weather_elements.dart';
+import 'package:daily_fit/models/weather_elements.dart';
 
 class ElementBarIndicator extends StatelessWidget {
   final String elementName;
@@ -33,14 +33,11 @@ class ElementBarIndicator extends StatelessWidget {
             children: <Widget>[
               Container(
                 padding: EdgeInsets.all(2),
-                decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black),
-                    borderRadius: BorderRadius.circular(10)),
                 child: Text(
                   elementName,
                   style: TextStyle(
                       fontSize: MediaQuery.of(context).size.height / 40,
-                      fontFamily: 'Arita'),
+                      fontFamily: 'Nanumsquare'),
                 ),
               ),
               FAProgressBar(
@@ -83,13 +80,42 @@ class WindChillIndicator extends StatelessWidget {
         progressColor = Colors.red[700];
       }
       // 37.294
-      return ElementBarIndicator(
-        "체감온도",
-        '°C',
-        value,
-        40,
-        progressColor,
-        size: MediaQuery.of(context).size.height / 30,
+      return Row(
+        children: <Widget>[
+          Flexible(
+            flex: 3,
+            child: ElementBarIndicator(
+              "현재 체감온도",
+              '°C',
+              value,
+              40,
+              progressColor,
+              size: MediaQuery.of(context).size.height / 30,
+            ),
+          ),
+          Flexible(
+            flex: 1,
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Spacer(flex: 1),
+                  Flexible(
+                      flex: 2,
+                      child: Text(
+                        "최고 ${elements.maxTemp}℃",
+                        style: TextStyle(color: Colors.red, fontFamily: 'Nanumsquare'),
+                      )),
+                  Spacer(flex:1),
+                  Flexible(
+                      flex: 2,
+                      child: Text("최저 ${elements.minTemp}℃",
+                          style: TextStyle(color: Colors.blue, fontFamily: 'Nanumsquare')))
+                ],
+              ),
+            ),
+          )
+        ],
       );
     });
   }
@@ -103,20 +129,20 @@ class PrecipitationIndicator extends StatelessWidget {
       Color progressColor;
 
       if (value <= 1) {
-        progressColor = Colors.lightBlue[100];
-      } else if (value <= 5) {
         progressColor = Colors.lightBlue[300];
+      } else if (value <= 5) {
+        progressColor = Colors.lightBlue[500];
       } else if (value <= 20) {
-        progressColor = Colors.lightBlue;
+        progressColor = Colors.lightBlue[700];
       } else {
         progressColor = Colors.lightBlue[900];
       }
 
       return ElementBarIndicator(
-        "강수량",
+        "예상 최대 강수량",
         'mm',
         value,
-        10,
+        50,
         progressColor,
         size: MediaQuery.of(context).size.height / 30,
       );

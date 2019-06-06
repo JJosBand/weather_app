@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:weather_app/loading_page.dart';
-import 'package:weather_app/weather_data_utility.dart';
-import 'package:weather_app/widgets/element_bar_indicator.dart';
-import 'package:weather_app/fashion_view.dart';
-import 'package:weather_app/models/weather_elements.dart';
-import 'package:weather_app/alarm.dart';
-import 'package:weather_app/mode.dart';
+import 'package:daily_fit/loading_page.dart';
+import 'package:daily_fit/weather_data_utility.dart';
+import 'package:daily_fit/widgets/element_bar_indicator.dart';
+import 'package:daily_fit/fashion_view.dart';
+import 'package:daily_fit/models/weather_elements.dart';
+import 'package:daily_fit/widgets/mood_control_drawer.dart';
+import 'package:daily_fit/models/mode.dart';
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(
@@ -19,8 +19,11 @@ class WeatherApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      builder: (context) => WeatherElements(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(builder: (context) => WeatherElements()),
+        ChangeNotifierProvider(builder: (context) => Mode()),
+      ],
       child: MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Weather & Fashion',
@@ -38,95 +41,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.add), onPressed: () async {
-            var status = await Mode.changeMode();
-            if (status == 200) {
-                showDialog(
-                  context: context,
-                  builder: (context) => AlertDialog(
-                        title: Text('성공'),
-                        content: Text('무드등의 모드를 변경했습니다!'),
-                        actions: <Widget>[
-                          FlatButton(
-                            child: Text('Ok'),
-                            onPressed: () => Navigator.of(context).pop(),
-                          )
-                        ],
-                      ),
-                );
-              }
-          }),
-      drawer: Drawer(
-          child: ListView(
-        children: <Widget>[
-          DrawerHeader(
-            child: Text(
-              'Fake 데이터 보내기',
-              style: TextStyle(fontSize: 25),
-            ),
-            decoration: BoxDecoration(color: Colors.cyan),
-          ),
-          ListTile(
-            title: Text('겨울, 미세먼지'),
-            onTap: () async {
-              Map<String, num> temps = {
-                'current': 3,
-                'max': 6,
-                'min': -5,
-              };
-              await WeatherDataOpertation().putFakeWeatherInfo(context,
-                  fdust: 123,
-                  ffdust: 87,
-                  precipitation: 0,
-                  temps: temps,
-                  windChill: 2);
-              Future.delayed(Duration(milliseconds: 500)).then(
-                  (_) => Navigator.pushReplacementNamed(context, '/home'));
-            },
-          ),
-          ListTile(
-            title: Text('여름, 비'),
-            onTap: () async {
-              Map<String, num> temps = {
-                'current': 20,
-                'max': 22,
-                'min': 18,
-              };
-              await WeatherDataOpertation().putFakeWeatherInfo(context,
-                  fdust: 26,
-                  ffdust: 15,
-                  precipitation: 7,
-                  temps: temps,
-                  windChill: 18);
-              Future.delayed(Duration(milliseconds: 500)).then(
-                  (_) => Navigator.pushReplacementNamed(context, '/home'));
-            },
-          ),
-          ListTile(
-            title: Text('알람 설정'),
-            onTap: () async {
-              var status = await Alarm.postAlarmDataFromNowOneMin();
-              if (status == 200) {
-                showDialog(
-                  context: context,
-                  builder: (context) => AlertDialog(
-                        title: Text('성공'),
-                        content: Text('알람을 설정했습니다1'),
-                        actions: <Widget>[
-                          FlatButton(
-                            child: Text('Ok'),
-                            onPressed: () => Navigator.of(context).pushReplacementNamed('/home'),
-                          )
-                        ],
-                      ),
-                );
-              }
-            },
-          )
-        ],
-      )),
+      drawer: new MoodControlDrawer(),
       backgroundColor: Colors.white,
       body: SafeArea(
         top: true,
@@ -136,6 +51,8 @@ class HomePage extends StatelessWidget {
     );
   }
 }
+
+
 
 class MainScreen extends StatelessWidget {
   const MainScreen({
@@ -190,7 +107,7 @@ class MainScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-                    Spacer(flex: 3)
+                    Spacer(flex: 1)
                   ],
                 ),
               ),
