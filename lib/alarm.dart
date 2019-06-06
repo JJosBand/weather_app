@@ -10,7 +10,7 @@ class Alarm {
     var now = DateTime.now();
     Map<String, dynamic> alarmData = {
       'time': now.hour*60 + now.minute + 1,
-      'isAlarmed': false
+      'isAlarmed': 0
     };
     changeMode(context, mode: 3);
     var response = await http.put(_url, body: json.encode(alarmData));
@@ -22,7 +22,7 @@ class Alarm {
     int setTime = time.hour*60 + time.minute;
     Map<String, dynamic> alarmData = {
       'time': setTime,
-      'isAlarmed': false
+      'isAlarmed': 0
     };
     changeMode(context, mode: 3);
     var response = await http.put(_url, body: json.encode(alarmData));
