@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -13,8 +12,8 @@ class WeatherDataOpertation {
   static const String _urlFirebase =
       'https://weather-server-57a80.firebaseio.com/weathers.json';
 
-  String _aerisClientId = 'KscPtRtJwdVZjGLLfVEhk';
-  String _aerisClientSecret = 'BTtFxVyqTme7AgmIcLHnGARbaMrtcd9CIqR7qwtx';
+  // String _aerisClientId = 'KscPtRtJwdVZjGLLfVEhk';
+  // String _aerisClientSecret = 'BTtFxVyqTme7AgmIcLHnGARbaMrtcd9CIqR7qwtx';
   String _kakaoAuth = "KakaoAK 6a7d9991f3b4ee36fe7b8dc2be7405c2";
   Map<String, dynamic> _weatherInfo;
   Map<String, double> coordinate;

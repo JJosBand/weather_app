@@ -17,9 +17,8 @@ class MoodControlDrawer extends StatelessWidget {
   };
 
   // Changeable in demo
-  InputType inputType = InputType.both;
-  bool editable = true;
-  DateTime date;
+  final InputType inputType = InputType.both;
+  final bool editable = true;
 
   @override
   Widget build(BuildContext context) {
