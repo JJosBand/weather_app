@@ -186,12 +186,12 @@ class WeatherDataOpertation {
     var ffdustStr = dustInfo[1].getElementsByClassName('num')[0].text;
 
     // Preprocess Data
-    num currentTemp = num.parse(currentTempStr);
-    num currentWindChill = num.parse(currentWindChillStr);
-    num maxTemp = num.parse(maxTempStr.replaceFirst('˚', ''));
-    num minTemp = num.parse(minTempStr.replaceFirst('˚', ''));
-    num fdust = num.parse(fdustStr.replaceFirst('㎍/㎥', ''));
-    num ffdust = num.parse(ffdustStr.replaceFirst('㎍/㎥', ''));
+    num currentTemp = num.tryParse(currentTempStr) ?? 0;
+    num currentWindChill = num.tryParse(currentWindChillStr) ?? 0;
+    num maxTemp = num.tryParse(maxTempStr.replaceFirst('˚', '')) ?? 0;
+    num minTemp = num.tryParse(minTempStr.replaceFirst('˚', '')) ?? 0;
+    num fdust = num.tryParse(fdustStr.replaceFirst('㎍/㎥', '')) ?? 0;
+    num ffdust = num.tryParse(ffdustStr.replaceFirst('㎍/㎥', '')) ?? 0;
 
     // print(addressName);
     // print('현재 온도 $currentTemp');
